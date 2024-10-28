@@ -1,0 +1,3505 @@
+{
+  "schema_version": "0.4.0",
+  "metadata": {
+    "name": "devhub",
+    "version": "0.2.0",
+    "authors": [
+      "NEAR DevHub <neardevhub.org>"
+    ],
+    "build": {
+      "compiler": "rustc 1.81.0",
+      "builder": "cargo-near 0.8.2"
+    }
+  },
+  "body": {
+    "functions": [
+      {
+        "name": "add_member",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "member",
+              "type_schema": {
+                "$ref": "#/definitions/Member"
+              }
+            },
+            {
+              "name": "metadata",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedMemberMetadata"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "add_proposal",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "body",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedProposalBody"
+              }
+            },
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            },
+            {
+              "name": "accepted_terms_and_conditions_version",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint64",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "add_rfp",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "body",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedRFPBody"
+              }
+            },
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "cancel_rfp",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "proposals_to_cancel",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                }
+              }
+            },
+            {
+              "name": "proposals_to_unlink",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "contract_source_metadata",
+        "kind": "view"
+      },
+      {
+        "name": "create_addon",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "addon",
+              "type_schema": {
+                "$ref": "#/definitions/AddOn"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "create_community",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "inputs",
+              "type_schema": {
+                "$ref": "#/definitions/CommunityInputs"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "create_discussion",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "block_height",
+              "type_schema": {
+                "type": "number"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "delete_addon",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "delete_community",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "edit_member",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "member",
+              "type_schema": {
+                "$ref": "#/definitions/Member"
+              }
+            },
+            {
+              "name": "metadata",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedMemberMetadata"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "edit_proposal",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "body",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedProposalBody"
+              }
+            },
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "edit_proposal_linked_rfp",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "rfp_id",
+              "type_schema": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "edit_proposal_timeline",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "timeline",
+              "type_schema": {
+                "$ref": "#/definitions/TimelineStatusV1"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "edit_proposal_versioned_timeline",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "timeline",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedTimelineStatus"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "edit_rfp",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "body",
+              "type_schema": {
+                "$ref": "#/definitions/VersionedRFPBody"
+              }
+            },
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "uniqueItems": true
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "edit_rfp_timeline",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "timeline",
+              "type_schema": {
+                "$ref": "#/definitions/TimelineStatus"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        }
+      },
+      {
+        "name": "find_restricted_labels",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      {
+        "name": "get_access_control_info",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/AccessControl"
+          }
+        }
+      },
+      {
+        "name": "get_account_community_permissions",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            {
+              "name": "community_handle",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/CommunityPermissions"
+          }
+        }
+      },
+      {
+        "name": "get_addon",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "id",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/AddOn"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_all_addons",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AddOn"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_allowed_proposal_labels",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "editor",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_authors",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AccountId"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_communities_metadata",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/CommunityMetadata"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_proposal_authors",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/AccountId"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_proposal_ids",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_proposal_labels",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_all_rfp_ids",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_allowed_categories",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_community",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Community"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_community_addons",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/CommunityAddOn"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_community_metadata",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/CommunityMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "get_featured_communities",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Community"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_global_labels",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/LabelInfoExtended"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_parent_to_children",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint64",
+                    "minimum": 0.0
+                  }
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      {
+        "name": "get_post_to_parent",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      {
+        "name": "get_proposal",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "proposal_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/VersionedProposal"
+          }
+        }
+      },
+      {
+        "name": "get_proposals",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "ids",
+              "type_schema": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/VersionedProposal"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_proposals_by_author",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "author",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_proposals_by_label",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "label",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_rfp",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "rfp_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/VersionedRFP"
+          }
+        }
+      },
+      {
+        "name": "get_rfp_linked_proposals",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "rfp_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_rfps",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/VersionedRFP"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_rfps_by_label",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "label",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        }
+      },
+      {
+        "name": "get_root_members",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/definitions/VersionedMemberMetadata"
+            }
+          }
+        }
+      },
+      {
+        "name": "get_stats",
+        "kind": "view",
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Stats"
+          }
+        }
+      },
+      {
+        "name": "has_moderator",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "account_id",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "is_allowed_to_edit_proposal",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "proposal_id",
+              "type_schema": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            {
+              "name": "editor",
+              "type_schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/AccountId"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "is_allowed_to_use_labels",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "editor",
+              "type_schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/AccountId"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "is_allowed_to_write_rfps",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "editor",
+              "type_schema": {
+                "$ref": "#/definitions/AccountId"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "is_restricted_label",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "label",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "name": "new",
+        "kind": "call",
+        "modifiers": [
+          "init"
+        ]
+      },
+      {
+        "name": "remove_member",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "member",
+              "type_schema": {
+                "$ref": "#/definitions/Member"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "set_allowed_categories",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "new_categories",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "set_block_height_callback",
+        "kind": "call",
+        "modifiers": [
+          "private"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "proposal",
+              "type_schema": {
+                "$ref": "#/definitions/Proposal"
+              }
+            }
+          ]
+        },
+        "callbacks": [
+          {
+            "serialization_type": "json",
+            "type_schema": {
+              "$ref": "#/definitions/SetReturnType"
+            }
+          }
+        ],
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/BlockHeightCallbackRetValue"
+          }
+        }
+      },
+      {
+        "name": "set_community_addon",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "community_addon",
+              "type_schema": {
+                "$ref": "#/definitions/CommunityAddOn"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "set_community_addons",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "addons",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/CommunityAddOn"
+                }
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "set_community_socialdb",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "data",
+              "type_schema": true
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "set_featured_communities",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handles",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "set_global_labels",
+        "kind": "call",
+        "modifiers": [
+          "payable"
+        ],
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "labels",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/LabelInfoExtended"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "set_restricted_rules",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "rules",
+              "type_schema": {
+                "$ref": "#/definitions/RulesList"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "set_rfp_block_height_callback",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "rfp",
+              "type_schema": {
+                "$ref": "#/definitions/RFP"
+              }
+            }
+          ]
+        },
+        "callbacks": [
+          {
+            "serialization_type": "json",
+            "type_schema": {
+              "$ref": "#/definitions/SetReturnType"
+            }
+          }
+        ],
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/BlockHeightCallbackRetValue"
+          }
+        }
+      },
+      {
+        "name": "set_social_db_profile_description",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "description",
+              "type_schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "unsafe_migrate",
+        "kind": "view"
+      },
+      {
+        "name": "unsafe_self_upgrade",
+        "kind": "view"
+      },
+      {
+        "name": "unset_restricted_rules",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "rules",
+              "type_schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Rule"
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "update_addon",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "addon",
+              "type_schema": {
+                "$ref": "#/definitions/AddOn"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "update_community",
+        "kind": "call",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "handle",
+              "type_schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "community",
+              "type_schema": {
+                "$ref": "#/definitions/Community"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Promise"
+          }
+        }
+      },
+      {
+        "name": "web4_get",
+        "kind": "view",
+        "params": {
+          "serialization_type": "json",
+          "args": [
+            {
+              "name": "request",
+              "type_schema": {
+                "$ref": "#/definitions/Web4Request"
+              }
+            }
+          ]
+        },
+        "result": {
+          "serialization_type": "json",
+          "type_schema": {
+            "$ref": "#/definitions/Web4Response"
+          }
+        }
+      }
+    ],
+    "root_schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "String",
+      "type": "string",
+      "definitions": {
+        "AccessControl": {
+          "type": "object",
+          "required": [
+            "members_list",
+            "rules_list"
+          ],
+          "properties": {
+            "members_list": {
+              "$ref": "#/definitions/MembersList"
+            },
+            "rules_list": {
+              "$ref": "#/definitions/RulesList"
+            }
+          }
+        },
+        "AccountId": {
+          "description": "NEAR Account Identifier.\n\nThis is a unique, syntactically valid, human-readable account identifier on the NEAR network.\n\n[See the crate-level docs for information about validation.](index.html#account-id-rules)\n\nAlso see [Error kind precedence](AccountId#error-kind-precedence).\n\n## Examples\n\n``` use near_account_id::AccountId;\n\nlet alice: AccountId = \"alice.near\".parse().unwrap();\n\nassert!(\"ƒelicia.near\".parse::<AccountId>().is_err()); // (ƒ is not f) ```",
+          "type": "string"
+        },
+        "ActionType": {
+          "oneOf": [
+            {
+              "description": "Can edit posts that have these labels.",
+              "type": "string",
+              "enum": [
+                "edit-post"
+              ]
+            },
+            {
+              "description": "Can add/remove labels that fall under these rules.",
+              "type": "string",
+              "enum": [
+                "use-labels"
+              ]
+            }
+          ]
+        },
+        "AddOn": {
+          "type": "object",
+          "required": [
+            "configurator_widget",
+            "description",
+            "icon",
+            "id",
+            "title",
+            "view_widget"
+          ],
+          "properties": {
+            "configurator_widget": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "icon": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "view_widget": {
+              "type": "string"
+            }
+          }
+        },
+        "BlockHeightCallbackRetValue": {
+          "type": "object",
+          "required": [
+            "proposal_id"
+          ],
+          "properties": {
+            "proposal_id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          }
+        },
+        "Community": {
+          "type": "object",
+          "required": [
+            "addons",
+            "admins",
+            "banner_url",
+            "description",
+            "handle",
+            "logo_url",
+            "name",
+            "tag"
+          ],
+          "properties": {
+            "addons": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CommunityAddOn"
+              }
+            },
+            "admins": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            "banner_url": {
+              "type": "string"
+            },
+            "bio_markdown": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "github_handle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "handle": {
+              "type": "string"
+            },
+            "logo_url": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "telegram_handle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "twitter_handle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "website_url": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "CommunityAddOn": {
+          "type": "object",
+          "required": [
+            "addon_id",
+            "display_name",
+            "enabled",
+            "id",
+            "parameters"
+          ],
+          "properties": {
+            "addon_id": {
+              "type": "string"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "boolean"
+            },
+            "id": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "string"
+            }
+          }
+        },
+        "CommunityInputs": {
+          "type": "object",
+          "required": [
+            "banner_url",
+            "description",
+            "handle",
+            "logo_url",
+            "name",
+            "tag"
+          ],
+          "properties": {
+            "banner_url": {
+              "type": "string"
+            },
+            "bio_markdown": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "handle": {
+              "type": "string"
+            },
+            "logo_url": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "CommunityMetadata": {
+          "type": "object",
+          "required": [
+            "admins",
+            "banner_url",
+            "description",
+            "handle",
+            "logo_url",
+            "name",
+            "tag"
+          ],
+          "properties": {
+            "admins": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AccountId"
+              }
+            },
+            "banner_url": {
+              "type": "string"
+            },
+            "bio_markdown": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "handle": {
+              "type": "string"
+            },
+            "logo_url": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "CommunityPermissions": {
+          "type": "object",
+          "required": [
+            "can_configure",
+            "can_delete"
+          ],
+          "properties": {
+            "can_configure": {
+              "type": "boolean"
+            },
+            "can_delete": {
+              "type": "boolean"
+            }
+          }
+        },
+        "LabelInfoExtended": {
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "color": {
+              "type": [
+                "array",
+                "null"
+              ],
+              "items": [
+                {
+                  "type": "integer",
+                  "format": "uint8",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "integer",
+                  "format": "uint8",
+                  "minimum": 0.0
+                },
+                {
+                  "type": "integer",
+                  "format": "uint8",
+                  "minimum": 0.0
+                }
+              ],
+              "maxItems": 3,
+              "minItems": 3
+            },
+            "title": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "Member": {
+          "oneOf": [
+            {
+              "description": "NEAR account names do not allow `:` character so this structure cannot be abused.",
+              "type": "object",
+              "required": [
+                "Account"
+              ],
+              "properties": {
+                "Account": {
+                  "$ref": "#/definitions/AccountId"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "Team"
+              ],
+              "properties": {
+                "Team": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "MembersList": {
+          "type": "object"
+        },
+        "Promise": true,
+        "Proposal": {
+          "type": "object",
+          "required": [
+            "author_id",
+            "id",
+            "snapshot",
+            "snapshot_history",
+            "social_db_post_block_height"
+          ],
+          "properties": {
+            "author_id": {
+              "$ref": "#/definitions/AccountId"
+            },
+            "id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "snapshot": {
+              "$ref": "#/definitions/ProposalSnapshot"
+            },
+            "snapshot_history": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProposalSnapshot"
+              }
+            },
+            "social_db_post_block_height": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "ProposalFundingCurrency": {
+          "type": "string",
+          "enum": [
+            "NEAR",
+            "USDT",
+            "USDC",
+            "OTHER"
+          ]
+        },
+        "ProposalSnapshot": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatusV1"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "linked_rfp": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V1"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatusV1"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "linked_rfp": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V2"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/VersionedTimelineStatus"
+                }
+              }
+            }
+          ],
+          "required": [
+            "editor_id",
+            "labels",
+            "timestamp"
+          ],
+          "properties": {
+            "editor_id": {
+              "$ref": "#/definitions/AccountId"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "timestamp": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "RFP": {
+          "type": "object",
+          "required": [
+            "author_id",
+            "id",
+            "snapshot",
+            "snapshot_history",
+            "social_db_post_block_height"
+          ],
+          "properties": {
+            "author_id": {
+              "$ref": "#/definitions/AccountId"
+            },
+            "id": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "snapshot": {
+              "$ref": "#/definitions/RFPSnapshot"
+            },
+            "snapshot_history": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0.0
+              }
+            },
+            "social_db_post_block_height": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "RFPSnapshot": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "description",
+                "name",
+                "rfp_body_version",
+                "submission_deadline",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "rfp_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "submission_deadline": {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatus"
+                }
+              }
+            }
+          ],
+          "required": [
+            "block_height",
+            "editor_id",
+            "labels",
+            "linked_proposals",
+            "timestamp"
+          ],
+          "properties": {
+            "block_height": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "editor_id": {
+              "$ref": "#/definitions/AccountId"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "linked_proposals": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "uniqueItems": true
+            },
+            "timestamp": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "Rule": {
+          "oneOf": [
+            {
+              "description": "Labels can be any string, but rules are created by the NEAR account owner of this contract, or small circle of moderators. So this code cannot be abused. Likely creating a label that mimics a rule makes this label only more restrictive, so there might be nothing to exploit. TODO: Add extra logic to prevent malicious rules creation by creating labels that mimic rules.",
+              "type": "object",
+              "required": [
+                "ExactMatch"
+              ],
+              "properties": {
+                "ExactMatch": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "StartsWith"
+              ],
+              "properties": {
+                "StartsWith": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "Any"
+              ],
+              "properties": {
+                "Any": {
+                  "type": "array",
+                  "items": [],
+                  "maxItems": 0,
+                  "minItems": 0
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "RulesList": {
+          "type": "object"
+        },
+        "SetReturnType": {
+          "type": "object",
+          "required": [
+            "block_height"
+          ],
+          "properties": {
+            "block_height": {
+              "type": "string"
+            }
+          }
+        },
+        "Stats": {
+          "type": "object",
+          "required": [
+            "num_posts"
+          ],
+          "properties": {
+            "num_posts": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          }
+        },
+        "TimelineStatus": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "ACCEPTING_SUBMISSIONS"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "EVALUATION"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PROPOSAL_SELECTED"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "CANCELLED"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "TimelineStatusV1": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "DRAFT"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status"
+              ],
+              "properties": {
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "REVIEW"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status"
+              ],
+              "properties": {
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "APPROVED"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status"
+              ],
+              "properties": {
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "REJECTED"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status"
+              ],
+              "properties": {
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "APPROVED_CONDITIONALLY"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "kyc_verified",
+                "request_for_trustees_created",
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status",
+                "test_transaction_sent"
+              ],
+              "properties": {
+                "kyc_verified": {
+                  "type": "boolean"
+                },
+                "request_for_trustees_created": {
+                  "type": "boolean"
+                },
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PAYMENT_PROCESSING"
+                  ]
+                },
+                "test_transaction_sent": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "kyc_verified",
+                "payouts",
+                "request_for_trustees_created",
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status",
+                "test_transaction_sent",
+                "trustees_released_payment"
+              ],
+              "properties": {
+                "kyc_verified": {
+                  "type": "boolean"
+                },
+                "payouts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "request_for_trustees_created": {
+                  "type": "boolean"
+                },
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "FUNDED"
+                  ]
+                },
+                "test_transaction_sent": {
+                  "type": "boolean"
+                },
+                "trustees_released_payment": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "reviewer_completed_attestation",
+                "sponsor_requested_review",
+                "status"
+              ],
+              "properties": {
+                "reviewer_completed_attestation": {
+                  "type": "boolean"
+                },
+                "sponsor_requested_review": {
+                  "type": "boolean"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "CANCELLED"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "VersionedMemberMetadata": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "children",
+                "description",
+                "member_metadata_version",
+                "parents",
+                "permissions"
+              ],
+              "properties": {
+                "children": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Member"
+                  },
+                  "uniqueItems": true
+                },
+                "description": {
+                  "type": "string"
+                },
+                "member_metadata_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "parents": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Member"
+                  },
+                  "uniqueItems": true
+                },
+                "permissions": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/ActionType"
+                    },
+                    "uniqueItems": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "VersionedProposal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "author_id",
+                "id",
+                "proposal_version",
+                "snapshot",
+                "snapshot_history",
+                "social_db_post_block_height"
+              ],
+              "properties": {
+                "author_id": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "id": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "proposal_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "snapshot": {
+                  "$ref": "#/definitions/ProposalSnapshot"
+                },
+                "snapshot_history": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ProposalSnapshot"
+                  }
+                },
+                "social_db_post_block_height": {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                }
+              }
+            }
+          ]
+        },
+        "VersionedProposalBody": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatusV1"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "linked_rfp": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V1"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatusV1"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "category",
+                "description",
+                "linked_proposals",
+                "name",
+                "proposal_body_version",
+                "receiver_account",
+                "requested_sponsor",
+                "requested_sponsorship_paid_in_currency",
+                "requested_sponsorship_usd_amount",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "linked_proposals": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint32",
+                    "minimum": 0.0
+                  }
+                },
+                "linked_rfp": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "name": {
+                  "type": "string"
+                },
+                "proposal_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V2"
+                  ]
+                },
+                "receiver_account": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsor": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "requested_sponsorship_paid_in_currency": {
+                  "$ref": "#/definitions/ProposalFundingCurrency"
+                },
+                "requested_sponsorship_usd_amount": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "supervisor": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/AccountId"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "timeline": {
+                  "$ref": "#/definitions/VersionedTimelineStatus"
+                }
+              }
+            }
+          ]
+        },
+        "VersionedRFP": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "author_id",
+                "id",
+                "rfp_version",
+                "snapshot",
+                "snapshot_history",
+                "social_db_post_block_height"
+              ],
+              "properties": {
+                "author_id": {
+                  "$ref": "#/definitions/AccountId"
+                },
+                "id": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "minimum": 0.0
+                },
+                "rfp_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "snapshot": {
+                  "$ref": "#/definitions/RFPSnapshot"
+                },
+                "snapshot_history": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "uint64",
+                    "minimum": 0.0
+                  }
+                },
+                "social_db_post_block_height": {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                }
+              }
+            }
+          ]
+        },
+        "VersionedRFPBody": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "description",
+                "name",
+                "rfp_body_version",
+                "submission_deadline",
+                "summary",
+                "timeline"
+              ],
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "rfp_body_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                },
+                "submission_deadline": {
+                  "type": "integer",
+                  "format": "uint64",
+                  "minimum": 0.0
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "timeline": {
+                  "$ref": "#/definitions/TimelineStatus"
+                }
+              }
+            }
+          ]
+        },
+        "VersionedRuleMetadata": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "description",
+                "rule_metadata_version"
+              ],
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "rule_metadata_version": {
+                  "type": "string",
+                  "enum": [
+                    "V0"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "VersionedTimelineStatus": {
+          "oneOf": [
+            {
+              "type": "object",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "DRAFT"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "REVIEW"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "APPROVED"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "REJECTED"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "APPROVED_CONDITIONALLY"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "request_for_trustees_created",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status",
+                    "test_transaction_sent"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "kyc_verified_deprecated": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "request_for_trustees_created": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "PAYMENT_PROCESSING"
+                      ]
+                    },
+                    "test_transaction_sent": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "payouts",
+                    "request_for_trustees_created",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status",
+                    "test_transaction_sent",
+                    "trustees_released_payment"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "kyc_verified_deprecated": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "payouts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "request_for_trustees_created": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "FUNDED"
+                      ]
+                    },
+                    "test_transaction_sent": {
+                      "type": "boolean"
+                    },
+                    "trustees_released_payment": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "kyc_verified",
+                    "reviewer_completed_attestation",
+                    "sponsor_requested_review",
+                    "status"
+                  ],
+                  "properties": {
+                    "kyc_verified": {
+                      "type": "boolean"
+                    },
+                    "reviewer_completed_attestation": {
+                      "type": "boolean"
+                    },
+                    "sponsor_requested_review": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "CANCELLED"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "required": [
+                "timeline_version"
+              ],
+              "properties": {
+                "timeline_version": {
+                  "type": "string",
+                  "enum": [
+                    "V1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "Web4Request": {
+          "type": "object",
+          "required": [
+            "path"
+          ],
+          "properties": {
+            "accountId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "params": {
+              "default": {},
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "path": {
+              "type": "string"
+            },
+            "preloads": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": {
+                "$ref": "#/definitions/Web4Response"
+              }
+            },
+            "query": {
+              "default": {},
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Web4Response": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "body",
+                "contentType"
+              ],
+              "properties": {
+                "body": {
+                  "type": "string"
+                },
+                "contentType": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "bodyUrl"
+              ],
+              "properties": {
+                "bodyUrl": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "preloadUrls"
+              ],
+              "properties": {
+                "preloadUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
