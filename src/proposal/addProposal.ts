@@ -1,75 +1,67 @@
-import { Transaction, VersionedRFPBody } from "@/utils/types";
+import { Transaction } from "@/utils/types";
+import { VersionedProposalBody } from "../../contract_types";
 
 type ProposalPostBody = {
-  name: string;
-  description: string;
+  category: string;
+  title: string;
   summary: string;
-  labels: string[];
-}
+  description: string;
+  accepted_terms_and_conditions: boolean;
+  contract: string;
+  accountId: string;
+  amount: number;
+  currency: "NEAR" | "USDT" | "USDC" | "OTHER";
+};
 
-export async function addProposal({ body }: {body: ProposalPostBody}): Promise<Transaction[]> {
+export async function addProposal({
+  body,
+}: {
+  body: ProposalPostBody;
+}): Promise<Transaction[]> {
   // NOTE: ADD submission_deadline
-  const { name, description, summary, labels } = body;
+  const {
+    category,
+    title,
+    summary,
+    description,
+    accepted_terms_and_conditions,
+    contract,
+    accountId,
+    amount,
+    currency,
+  } = body;
 
-
-  // TODO interact with RPC of the given contract get_allowed_categories;
-  // const foundCategory = searchCategory(labels);
-
-  // NOTE: We want to get the input this as strict as possible. 
-  // If an LLM is not able to provide the correct format, it should be rejected or we should try to fix it.
-
-  // if (!foundCategory) {
-  //   return {
-  //     status: 400,
-  //     body: { error: "Invalid input" },
-  //   };
-  // }
-
-  // TODO check if the name is under 80 characters
-  if (!name) {
-    return []
-  }
-
-  if (!description) {
-    return [];
-  }
-
-  // TODO: check if summary is under 500 characters
-  if (!summary) {
-    return []
-  }
-
-  // TODO could be two weeks from now or month from now.
-  // if (!submission_deadline){
-  //   return {
-  //     status: 400,
-  //     body: { error: "Invalid input" },
-  //   };
-  // }
-
-
-  const rfpBodyV2: VersionedRFPBody = {
-    name: name,
-    summary: summary,
+  const proposalBody: VersionedProposalBody = {
+    category: category,
     description: description,
-    // submission_deadline: submission_deadline,
-    submission_deadline: 1730058609,
-    rfp_body_version: "V0",
+    linked_proposals: [],
+    name: title,
+    proposal_body_version: "V2",
+    receiver_account: "",
+    requested_sponsor: accountId,
+    requested_sponsorship_paid_in_currency: currency,
+    requested_sponsorship_usd_amount: amount,
+    summary: summary,
     timeline: {
-      "status": "ACCEPTING_SUBMISSIONS"
+      status: "DRAFT",
     },
-  }
-
-  const functionCall: Transaction = {
-    receiverId: "infrastructure-committee.near",
-    functionCalls: [{
-      methodName: "add_rfp",
-      args: { body: rfpBodyV2, labels },
-      gas: "30000000000000",
-      amount: "0",
-    }],
   };
 
+  const functionCall: Transaction = {
+    receiverId: contract,
+    functionCalls: [
+      {
+        methodName: "add_proposal",
+        args: {
+          body: proposalBody,
+          labels: [],
+          accepted_terms_and_conditions_version: accepted_terms_and_conditions,
+        },
+        gas: "30000000000000",
+        amount: "0",
+      },
+    ],
+  };
 
   return [functionCall];
 }

@@ -1,4 +1,3 @@
-
 interface BitteConfig {
   url: string; // tunnelUrl
   pluginId: string;
@@ -99,9 +98,13 @@ export async function GET() {
                     },
                     contract: {
                       type: "string",
-                      description: "The account ID of the contract that will receive the transaction, default value is 'infrastructure-committee.near'",
-                      enum: ["infrastructure-committee.near", "forum.potlock.near"],
-                    }
+                      description:
+                        "The account ID of the contract that will receive the transaction, default value is 'infrastructure-committee.near'",
+                      enum: [
+                        "infrastructure-committee.near",
+                        "forum.potlock.near",
+                      ],
+                    },
                   },
                   required: [
                     "title",
@@ -122,53 +125,219 @@ export async function GET() {
                 "application/json": {
                   schema: {
                     type: "array",
-                    "items": {
-                    "type": "object",
-                    "properties": {
-                      "receiverId": {
-                        "type": "string",
-                        "description": "The account ID of the contract that will receive the transaction."
-                      },
-                      "functionCalls": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "methodName": {
-                              "type": "string",
-                              "description": "The name of the method to be called on the contract."
-                            },
-                            "args": {
-                              "type": "object",
-                              "description": "Arguments for the function call.",
-                              "properties": {
-                                "body": {
-                                  "type": "object",
-                                },
-                                "labels": {
-                                  "type": "array",
-                                  "items": {
-                                    "type": "string",
+                    items: {
+                      type: "object",
+                      properties: {
+                        receiverId: {
+                          type: "string",
+                          description:
+                            "The account ID of the contract that will receive the transaction.",
+                        },
+                        functionCalls: {
+                          type: "array",
+                          items: {
+                            type: "object",
+                            properties: {
+                              methodName: {
+                                type: "string",
+                                description:
+                                  "The name of the method to be called on the contract.",
+                                enum: ["add_rfp"],
+                              },
+                              args: {
+                                type: "object",
+                                description: "Arguments for the function call.",
+                                properties: {
+                                  body: {
+                                    type: "object",
+                                  },
+                                  labels: {
+                                    type: "array",
+                                    items: {
+                                      type: "string",
+                                    },
                                   },
                                 },
+                                additionalProperties: true,
                               },
-                              "additionalProperties": true
+                              gas: {
+                                type: "string",
+                                description:
+                                  "The amount of gas to attach to the transaction, in yoctoNEAR.",
+                              },
+                              amount: {
+                                type: "string",
+                                description:
+                                  "The amount of NEAR tokens to attach to the transaction, in yoctoNEAR.",
+                              },
                             },
-                            "gas": {
-                              "type": "string",
-                              "description": "The amount of gas to attach to the transaction, in yoctoNEAR."
-                            },
-                            "amount": {
-                              "type": "string",
-                              "description": "The amount of NEAR tokens to attach to the transaction, in yoctoNEAR."
-                            }
+                            required: ["methodName", "args", "gas", "amount"],
                           },
-                          "required": ["methodName", "args", "gas", "amount"]
-                        }
-                      }
+                        },
+                      },
+                      required: ["receiverId", "functionCalls"],
                     },
-                    "required": ["receiverId", "functionCalls"]
-                  }
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      "/add_proposal": {
+        post: {
+          tags: ["Proposal"],
+          summary: "Get add proposal transactions",
+          description:
+            "An array of transactions objects necessary to execute the creation of a new proposal.",
+          operationId: "add-proposal",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    category: {
+                      type: "string",
+                      description: "The category of the proposal",
+                      enum: [
+                        "DevDAO Operations",
+                        "DevDAO Platform",
+                        "Events & Hackathons",
+                        "Engagement & Awareness",
+                        "Decentralized DevRel",
+                        "Universities & Bootcamps",
+                        "Tooling & Infrastructure",
+                        "Other",
+                      ],
+                    },
+                    title: {
+                      type: "string",
+                      description: "The title or name of the proposal",
+                      maxLength: 80,
+                      minLength: 1,
+                    },
+                    summary: {
+                      type: "string",
+                      description: "A short summary of the proposal",
+                      maxLength: 500,
+                      minLength: 1,
+                    },
+                    description: {
+                      type: "string",
+                      description:
+                        "The main description of the proposal written in markdown rich text format",
+                      minLength: 1,
+                    },
+                    accepted_terms_and_conditions: {
+                      type: "boolean",
+                      description:
+                        "Whether the proposal has accepted the terms and conditions",
+                    },
+                    contract: {
+                      type: "string",
+                      description:
+                        "The account ID of the contract that will receive the transaction, default value is 'devhub.near'",
+                      enum: [
+                        "devhub.near",
+                        "infrastructure-committee.near",
+                        "events-committee.near",
+                        "forum.potlock.near",
+                      ],
+                    },
+                    accountId: {
+                      type: "string",
+                      description: "The account ID of the user submitting the proposal",
+                    },
+                    amount: {
+                      type: "number",
+                      description:
+                        "The amount of tokens requested for the proposal.",
+                    },
+                    currency: {
+                      type: "string",
+                      description: "The currency of the tokens requested",
+                      enum: ["NEAR", "USDT", "USDC", "OTHER"],
+                    },
+                  },
+                  required: [
+                    "title",
+                    "summary",
+                    "description",
+                    "accepted_terms_and_conditions",
+                    "contract",
+                    "accountId",
+                    "amount",
+                    "currency",
+                  ],
+                },
+              },
+            },
+          },
+          responses: {
+            "200": {
+              description: "add_proposal transactions generated successfully.",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      properties: {
+                        receiverId: {
+                          type: "string",
+                          description:
+                            "The account ID of the contract that will receive the transaction.",
+                        },
+                        functionCalls: {
+                          type: "array",
+                          items: {
+                            type: "object",
+                            properties: {
+                              methodName: {
+                                type: "string",
+                                description:
+                                  "The name of the method to be called on the contract.",
+                                enum: ["add_proposal"],
+                              },
+                              args: {
+                                type: "object",
+                                description: "Arguments for the function call.",
+                                properties: {
+                                  body: {
+                                    type: "object",
+                                  },
+                                  labels: {
+                                    type: "array",
+                                    items: {
+                                      type: "string",
+                                    },
+                                    enum: [],
+                                  },
+                                  accepted_terms_and_conditions: {
+                                    type: "boolean",
+                                  },
+                                },
+                                additionalProperties: true,
+                              },
+                              gas: {
+                                type: "string",
+                                description:
+                                  "The amount of gas to attach to the transaction, in yoctoNEAR.",
+                              },
+                              amount: {
+                                type: "string",
+                                description:
+                                  "The amount of NEAR tokens to attach to the transaction, in yoctoNEAR.",
+                              },
+                            },
+                            required: ["methodName", "args", "gas", "amount"],
+                          },
+                        },
+                      },
+                      required: ["receiverId", "functionCalls"],
+                    },
                   },
                 },
               },
@@ -181,6 +350,6 @@ export async function GET() {
   // Pretty-print the JSON
   const formattedData = JSON.stringify(pluginData, null, 2);
   return new Response(formattedData, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   });
 }
