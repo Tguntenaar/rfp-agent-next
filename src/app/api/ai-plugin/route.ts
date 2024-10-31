@@ -313,7 +313,6 @@ export async function GET() {
                                     items: {
                                       type: "string",
                                     },
-                                    enum: [],
                                   },
                                   accepted_terms_and_conditions: {
                                     type: "boolean",
