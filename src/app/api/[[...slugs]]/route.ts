@@ -5,8 +5,8 @@ import { addProposal } from "@/proposal/addProposal";
 
 const app = new Elysia({ prefix: "/api", aot: false })
   .use(swagger())
-  .post("/add_rfp", addRfp)
-  .post("/add_proposal", addProposal)
+  .post("/addRfp", addRfp)
+  .post("/addProposal", addProposal)
   .compile();
 
 export const GET = app.handle;

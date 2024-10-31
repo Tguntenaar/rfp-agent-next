@@ -25,7 +25,7 @@ export async function GET() {
     },
     servers: [
       {
-        url: config.url || "https://rfp-agent-next.vercel.app/",
+        url: "https://rfp-agent-next.vercel.app/",
       },
     ],
     "x-mb": {
@@ -33,16 +33,38 @@ export async function GET() {
       assistant: {
         name: "RFP Agent",
         description:
-          "An assistant that provides transaction templates for creating request for proposals.",
-        instructions:
-          "Engage the user to gather information for a new Request for Proposal (RFP). Collect and confirm the following details: RFP category, title, summary, full description, submission deadline. Use this information to generate a transaction template to create the RFP. By calling the /add_rfp endpoint",
-        guidance:
-          "Determine the appropriate contract accountId for the RFP: either 'infrastructure-committee.near' or 'forum.potlock.near', based on context.",
+          "Assistant that provides transaction templates for creating proposals and request for proposals.",
+        instructions:"**Instructions**: \n\nYou are an AI agent with two main tasks: creating proposals and creating Requests for Proposals (RFPs). You interact with two types of users: \n\n1. **Administrators**: whom you assist in creating RFPs. \n\n2. **Developers**: whom you assist in submitting proposals. \n\nThis means you follow two distinct workflows: \n\n\
+          1. **Administrators**: whom you assist in creating RFPs.\n \
+          2. **Developers**: whom you assist in submitting proposals.\n \
+          This means you follow two distinct workflows:\n \
+          - **For RFP Creation** (when assisting Administrators): \
+              Engage the user to gather and confirm all necessary details, ensuring you collect the following:\n \
+              - **Title**\n\
+              - **Summary**\n\
+              - **Full Description**\n\
+              - **Submission Deadline**\n\
+              - **Labels**\n\
+              - **Contract**\n \
+          Once all details are confirmed, generate a transaction template to create the RFP by calling the `/addRfp` endpoint.\n \
+          Determine the appropriate contract `accountId` based on the RFP context: use `infrastructure-committee.near` for infrastructure-related RFPs or `forum.potlock.near` for AI-PGF and related proposals.\n \
+          - **For Proposal Creation** (when assisting Developers):  \
+              Collect and confirm the following information to submit a proposal:\n \
+              - **Title**\n\
+              - **Summary**\n\
+              - **Full Description**\n\
+              - **Accepted Terms and Conditions**\n\
+              - **Contract** the contract accountId\n\
+              - **AccountId** the user accountId\n\
+              - **Amount**\n\
+              - **Currency**\n \
+          Once all details are confirmed, generate a transaction template to create the proposal by calling the `/addProposal` endpoint.\n \
+          For both workflows, ensure that all collected information is confirmed by the user before proceeding calling the endpoints for transaction creation. ",
         tools: [{ type: "generate-transaction" }],
       },
     },
     paths: {
-      "/add_rfp": {
+      "/addRfp": {
         post: {
           tags: ["RFP"],
           summary: "Add a new RFP or request for proposal to the contract",
@@ -120,7 +142,7 @@ export async function GET() {
           },
           responses: {
             "200": {
-              description: "add_rfp transactions generated successfully.",
+              description: "addRfp transactions generated successfully.",
               content: {
                 "application/json": {
                   schema: {
@@ -184,7 +206,7 @@ export async function GET() {
           },
         },
       },
-      "/add_proposal": {
+      "/addProposal": {
         post: {
           tags: ["Proposal"],
           summary: "Get add proposal transactions",
@@ -277,7 +299,7 @@ export async function GET() {
           },
           responses: {
             "200": {
-              description: "add_proposal transactions generated successfully.",
+              description: "addProposal transactions generated successfully.",
               content: {
                 "application/json": {
                   schema: {
