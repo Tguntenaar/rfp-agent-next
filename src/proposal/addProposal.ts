@@ -1,18 +1,15 @@
 import { Transaction, VersionedRFPBody } from "@/utils/types";
-// import { parseISO } from 'date-fns';
 
-type RfpPostBody = {
-  title: string;
+type ProposalPostBody = {
+  name: string;
   description: string;
   summary: string;
-  submission_deadline: number; // DATE should come in as string an be converted to unix timestamp
   labels: string[];
-  contract: string;
 }
 
-export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction[]> {
+export async function addProposal({ body }: {body: ProposalPostBody}): Promise<Transaction[]> {
   // NOTE: ADD submission_deadline
-  const { title, description, summary, submission_deadline, labels, contract } = body;
+  const { name, description, summary, labels } = body;
 
 
   // TODO interact with RPC of the given contract get_allowed_categories;
@@ -28,18 +25,21 @@ export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction
   //   };
   // }
 
-  // if (!title) {
-  //   return []
-  // }
+  // TODO check if the name is under 80 characters
+  if (!name) {
+    return []
+  }
 
-  // if (!description) {
-  //   return [];
-  // }
+  if (!description) {
+    return [];
+  }
 
-  // if (!summary) {
-  //   return []
-  // }
+  // TODO: check if summary is under 500 characters
+  if (!summary) {
+    return []
+  }
 
+  // TODO could be two weeks from now or month from now.
   // if (!submission_deadline){
   //   return {
   //     status: 400,
@@ -47,15 +47,13 @@ export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction
   //   };
   // }
 
-  // const deadlineUnix = Date.parse(submission_deadline);
-  // Math.floor(Date.parse(`${submission_deadline}`).getTime() / 1000)
-
 
   const rfpBodyV2: VersionedRFPBody = {
-    name: title,
+    name: name,
     summary: summary,
     description: description,
-    submission_deadline: submission_deadline,
+    // submission_deadline: submission_deadline,
+    submission_deadline: 1730058609,
     rfp_body_version: "V0",
     timeline: {
       "status": "ACCEPTING_SUBMISSIONS"
@@ -63,7 +61,7 @@ export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction
   }
 
   const functionCall: Transaction = {
-    receiverId: contract,
+    receiverId: "infrastructure-committee.near",
     functionCalls: [{
       methodName: "add_rfp",
       args: { body: rfpBodyV2, labels },

@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 
 interface BitteConfig {
   url: string; // tunnelUrl
@@ -47,9 +46,9 @@ export async function GET() {
       "/add_rfp": {
         post: {
           tags: ["RFP"],
-          summary: "Add a new RFP",
+          summary: "Add a new RFP or request for proposal to the contract",
           description:
-            "This endpoint adds a new RFP to the infrastructure-committee.near contract.",
+            "An array of transactions objects necessary to execute the creation of a new RFP.",
           operationId: "add-rfp",
           requestBody: {
             required: true,
@@ -66,7 +65,7 @@ export async function GET() {
                     },
                     summary: {
                       type: "string",
-                      description: "The summary of the RFP",
+                      description: "A short summary of the RFP",
                       maxLength: 500,
                       minLength: 1,
                     },
@@ -76,8 +75,6 @@ export async function GET() {
                         "The main description of the RFP written in markdown rich text format",
                       minLength: 1,
                     },
-                    // TODO; find format from contract
-                    // Use any-date format or split year, month, day
                     submission_deadline: {
                       type: "string",
                       description:
@@ -100,6 +97,11 @@ export async function GET() {
                         ],
                       },
                     },
+                    contract: {
+                      type: "string",
+                      description: "The account ID of the contract that will receive the transaction, default value is 'infrastructure-committee.near'",
+                      enum: ["infrastructure-committee.near", "forum.potlock.near"],
+                    }
                   },
                   required: [
                     "title",
@@ -107,6 +109,7 @@ export async function GET() {
                     "description",
                     "submission_deadline",
                     "labels",
+                    "contract",
                   ],
                 },
               },
@@ -114,7 +117,7 @@ export async function GET() {
           },
           responses: {
             "200": {
-              description: "Add RFP transactions generated successfully.",
+              description: "add_rfp transactions generated successfully.",
               content: {
                 "application/json": {
                   schema: {
@@ -138,14 +141,14 @@ export async function GET() {
                             "args": {
                               "type": "object",
                               "description": "Arguments for the function call.",
-                              properties: {
-                                body: {
-                                  type: "object",
+                              "properties": {
+                                "body": {
+                                  "type": "object",
                                 },
-                                labels: {
-                                  type: "array",
-                                  items: {
-                                    type: "string",
+                                "labels": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
                                   },
                                 },
                               },
@@ -175,5 +178,9 @@ export async function GET() {
       },
     },
   };
-  return NextResponse.json(pluginData);
+  // Pretty-print the JSON
+  const formattedData = JSON.stringify(pluginData, null, 2);
+  return new Response(formattedData, {
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
