@@ -17,8 +17,7 @@ export async function addProposal({
   body,
 }: {
   body: ProposalPostBody;
-}): Promise<Transaction[]> {
-  // NOTE: ADD submission_deadline
+}): Promise<Transaction[] | { error: string }> {
   const {
     category,
     title,
@@ -30,6 +29,54 @@ export async function addProposal({
     amount,
     currency,
   } = body;
+
+  if (!title) {
+    return {
+      error: "Title is required"
+    }
+  }
+
+  if (!summary) {
+    return {
+      error: "Summary is required"
+    }
+  }
+
+  if (!description) {
+    return {
+      error: "Description is required"
+    }
+  }
+
+  if (!accepted_terms_and_conditions) {
+    return {
+      error: "Accepted terms and conditions is required"
+    }
+  }
+
+  if (!contract) {
+    return {
+      error: "Contract is required"
+    }
+  }
+
+  if (!accountId) {
+    return {
+      error: "Account ID is required"
+    }
+  }
+
+  if (!amount) {
+    return {
+      error: "Amount is required"
+    }
+  }
+
+  if (!currency) {
+    return {
+      error: "Currency is required"
+    }
+  }
 
   const proposalBody: VersionedProposalBody = {
     category: category,

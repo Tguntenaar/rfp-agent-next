@@ -1,55 +1,52 @@
 import { Transaction, VersionedRFPBody } from "@/utils/types";
-// import { parseISO } from 'date-fns';
 
 type RfpPostBody = {
   title: string;
   description: string;
   summary: string;
-  submission_deadline: number; // DATE should come in as string an be converted to unix timestamp
+  submission_deadline: number;
   labels: string[];
   contract: string;
 }
 
-export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction[]> {
-  // NOTE: ADD submission_deadline
+export async function addRfp({ body }: {body: RfpPostBody}): Promise<Transaction[] | { error: string }> {
   const { title, description, summary, submission_deadline, labels, contract } = body;
 
+  if (!title) {
+    return {
+      error: "Title is required"
+    }
+  }
 
-  // TODO interact with RPC of the given contract get_allowed_categories;
-  // const foundCategory = searchCategory(labels);
+  if (!description) {
+    return {
+      error: "Description is required"
+    }
+  }
 
-  // NOTE: We want to get the input this as strict as possible. 
-  // If an LLM is not able to provide the correct format, it should be rejected or we should try to fix it.
+  if (!summary) {
+    return {
+      error: "Summary is required"
+    }
+  }
 
-  // if (!foundCategory) {
-  //   return {
-  //     status: 400,
-  //     body: { error: "Invalid input" },
-  //   };
-  // }
+  if (!submission_deadline){
+    return {
+      error: "Submission deadline is required"
+    }
+  }
 
-  // if (!title) {
-  //   return []
-  // }
+  if (!labels) {
+    return {
+      error: "Labels are required"
+    }
+  }
 
-  // if (!description) {
-  //   return [];
-  // }
-
-  // if (!summary) {
-  //   return []
-  // }
-
-  // if (!submission_deadline){
-  //   return {
-  //     status: 400,
-  //     body: { error: "Invalid input" },
-  //   };
-  // }
-
-  // const deadlineUnix = Date.parse(submission_deadline);
-  // Math.floor(Date.parse(`${submission_deadline}`).getTime() / 1000)
-
+  if (!contract) {
+    return {
+      error: "Contract is required"
+    }
+  }
 
   const rfpBodyV2: VersionedRFPBody = {
     name: title,

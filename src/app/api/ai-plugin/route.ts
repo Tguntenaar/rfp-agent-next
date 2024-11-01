@@ -70,7 +70,7 @@ export async function GET() {
           summary: "Add a new RFP or request for proposal to the contract",
           description:
             "An array of transactions objects necessary to execute the creation of a new RFP.",
-          operationId: "add-rfp",
+          operationId: "add_rfp",
           requestBody: {
             required: true,
             content: {
@@ -142,7 +142,7 @@ export async function GET() {
           },
           responses: {
             "200": {
-              description: "addRfp transactions generated successfully.",
+              description: "add_rfp transactions generated successfully.",
               content: {
                 "application/json": {
                   schema: {
@@ -203,6 +203,21 @@ export async function GET() {
                 },
               },
             },
+            "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
           },
         },
       },
@@ -212,7 +227,7 @@ export async function GET() {
           summary: "Get add proposal transactions",
           description:
             "An array of transactions objects necessary to execute the creation of a new proposal.",
-          operationId: "add-proposal",
+          operationId: "add_proposal",
           requestBody: {
             required: true,
             content: {
@@ -256,6 +271,7 @@ export async function GET() {
                       type: "boolean",
                       description:
                         "Whether the proposal has accepted the terms and conditions",
+                      enum: [true],
                     },
                     contract: {
                       type: "string",
@@ -299,7 +315,7 @@ export async function GET() {
           },
           responses: {
             "200": {
-              description: "addProposal transactions generated successfully.",
+              description: "add_proposal transactions generated successfully.",
               content: {
                 "application/json": {
                   schema: {
@@ -363,6 +379,21 @@ export async function GET() {
                 },
               },
             },
+            "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
           },
         },
       },
